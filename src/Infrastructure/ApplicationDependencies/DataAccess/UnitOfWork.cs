@@ -15,13 +15,25 @@ namespace Infrastructure.ApplicationDependencies.DataAccess
 
         public IProductTypeRepository ProductType { get; set; }
         public IProductRepository Product { get; set; }
+        public IUnitRepository Unit { get; set; }
+        public IPurchaseOrderRepository PurchaseOrder { get; set; }
+        public IPurchaseOrderLineRepository PurchaseOrderLine { get; set; }
+        public IWarehouseTypeRepository WarehouseType { get; set; }
+        public IWarehouseRepository Warehouse { get; set; }
 
         public UnitOfWork(ApplicationDbContext dbContext,
-            IProductTypeRepository productType, IProductRepository product)
+            IProductTypeRepository productType, IProductRepository product, IUnitRepository unit,
+            IPurchaseOrderRepository purchaseOrder, IPurchaseOrderLineRepository purchaseOrderLine, 
+            IWarehouseTypeRepository warehouseType, IWarehouseRepository warehouse)
         {
             _dbContext = dbContext;
             ProductType = productType;
             Product = product;
+            Unit = unit;
+            PurchaseOrder = purchaseOrder;
+            PurchaseOrderLine = purchaseOrderLine;
+            WarehouseType = warehouseType;
+            Warehouse = warehouse;
         }
 
         public void Dispose()

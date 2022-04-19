@@ -15,6 +15,12 @@ namespace Infrastructure.ApplicationDependencies
         {
             services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IUnitRepository, UnitRepository>();
+            services.AddScoped<IPurchaseOrderRepository, PurchaseOrderRepository>();
+            services.AddScoped<IPurchaseOrderLineRepository, PurchaseOrderLineRepository>();
+            services.AddScoped<IWarehouseRepository, WarehouseRepository>();
+            services.AddScoped<IWarehouseTypeRepository, WarehouseTypeRepository>();
+
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

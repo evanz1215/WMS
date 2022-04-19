@@ -1,6 +1,10 @@
-﻿using Application.ProductTypes.GetProductTypeList;
+﻿using Application.ProductTypes.CreateProductType;
+using Application.ProductTypes.GetProductType;
+using Application.ProductTypes.GetProductTypeList;
+using Application.ProductTypes.PatchProductType;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers.V1
@@ -25,5 +29,42 @@ namespace WebAPI.Controllers.V1
 
             return Ok(result);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAsync([FromRoute] int id)
+        {
+            var result = await _mediator.Send(new GetProductTypeQuery
+            {
+                Id = id
+            });
+
+            return Ok(result);
+        }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> CreateAsync([FromBody] CreateProductTypeCommand command)
+        {
+            var result = await _mediator.Send(command);
+
+            return NoContent();
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PatchAsync([FromRoute] int id, [FromBody] JsonPatchDocument<ProductTypeForUpdateDto> patchDocument)
+        {
+            var result = await _mediator.Send(new PatchProductTypeCommand
+            {
+                Id = id,
+                PatchDocument = patchDocument
+            });
+
+            return NoContent();
+        }
+
+
+
+
     }
 }

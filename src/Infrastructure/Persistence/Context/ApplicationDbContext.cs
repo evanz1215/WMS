@@ -2,7 +2,11 @@
 using Domain.Common;
 using Domain.Products;
 using Domain.ProductTypes;
+using Domain.PurchaseOrderLines;
+using Domain.PurchaseOrders;
 using Domain.Units;
+using Domain.Warehouses;
+using Domain.WarehouseTypes;
 using Infrastructure.Identity.Model;
 using Infrastructure.Persistence.Context.Configurations;
 using Microsoft.AspNetCore.Identity;
@@ -30,6 +34,10 @@ namespace Infrastructure.Persistence.Context
         public DbSet<ProductType> ProductType { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<Unit> Unit { get; set; }
+        public DbSet<PurchaseOrder> PurchaseOrder { get; set; }
+        public DbSet<PurchaseOrderLine> PurchaseOrderLine { get; set; }
+        public DbSet<Warehouse> Warehouse { get; set; }
+        public DbSet<WarehouseType> WarehouseType { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -43,6 +51,10 @@ namespace Infrastructure.Persistence.Context
             builder.ApplyConfiguration(new ProductTypeConfiguration());
             builder.ApplyConfiguration(new ProductConfiguration());
             builder.ApplyConfiguration(new UnitConfiguration());
+            builder.ApplyConfiguration(new PurchaseOrderConfiguration());
+            builder.ApplyConfiguration(new PurchaseOrderLineConfiguration());
+            builder.ApplyConfiguration(new WarehouseConfiguration());
+            builder.ApplyConfiguration(new WarehouseTypeConfiguration());
 
             base.OnModelCreating(builder);
             //builder.HasSequence<int>("ProductSequence", schema);

@@ -1,5 +1,6 @@
 ﻿using Domain.Common;
 using Domain.Products;
+using Domain.PurchaseOrderLines;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace Domain.Units
 
 
         public virtual ICollection<Product> Product { get; set; }
+        public virtual ICollection<PurchaseOrderLine> PurchaseOrderLine { get; set; }
     }
 }

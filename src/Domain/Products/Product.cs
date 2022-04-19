@@ -1,5 +1,6 @@
 ﻿using Domain.Common;
 using Domain.ProductTypes;
+using Domain.PurchaseOrderLines;
 using Domain.Units;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -43,5 +44,8 @@ namespace Domain.Products
 
         public virtual ProductType ProductType { get; set; }
         public virtual Unit Unit { get; set; }
+
+
+        public virtual ICollection<PurchaseOrderLine> PurchaseOrderLine { get; set; }
     }
 }

@@ -102,6 +102,102 @@ namespace Infrastructure.Persistence.Context.Migrations
                     b.ToTable("ProductType", "dbo");
                 });
 
+            modelBuilder.Entity("Domain.PurchaseOrderLines.PurchaseOrderLine", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PurchaseOrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Quantity")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("UnitId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("PurchaseOrderId");
+
+                    b.HasIndex("UnitId");
+
+                    b.ToTable("PurchaseOrderLine", "dbo");
+                });
+
+            modelBuilder.Entity("Domain.PurchaseOrders.PurchaseOrder", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("LastModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("PurchaseOrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PurchaseOrderStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SerialNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<Guid>("WarehouseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("PurchaseOrder", "dbo");
+                });
+
             modelBuilder.Entity("Domain.Units.Unit", b =>
                 {
                     b.Property<int>("Id")
@@ -116,6 +212,70 @@ namespace Infrastructure.Persistence.Context.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Unit", "dbo");
+                });
+
+            modelBuilder.Entity("Domain.Warehouses.Warehouse", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("SerialNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("WarehouseTypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WarehouseTypeId");
+
+                    b.ToTable("Warehouse", "dbo");
+                });
+
+            modelBuilder.Entity("Domain.WarehouseTypes.WarehouseType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WarehouseType", "dbo");
                 });
 
             modelBuilder.Entity("Infrastructure.Identity.Model.ApplicationRole", b =>
@@ -334,6 +494,52 @@ namespace Infrastructure.Persistence.Context.Migrations
                     b.Navigation("Unit");
                 });
 
+            modelBuilder.Entity("Domain.PurchaseOrderLines.PurchaseOrderLine", b =>
+                {
+                    b.HasOne("Domain.Products.Product", "Product")
+                        .WithMany("PurchaseOrderLine")
+                        .HasForeignKey("ProductId")
+                        .IsRequired();
+
+                    b.HasOne("Domain.PurchaseOrders.PurchaseOrder", "PurchaseOrder")
+                        .WithMany("PurchaseOrderLine")
+                        .HasForeignKey("PurchaseOrderId")
+                        .IsRequired();
+
+                    b.HasOne("Domain.Units.Unit", "Unit")
+                        .WithMany("PurchaseOrderLine")
+                        .HasForeignKey("UnitId")
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("PurchaseOrder");
+
+                    b.Navigation("Unit");
+                });
+
+            modelBuilder.Entity("Domain.PurchaseOrders.PurchaseOrder", b =>
+                {
+                    b.HasOne("Domain.Warehouses.Warehouse", "Warehouse")
+                        .WithMany()
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Warehouse");
+                });
+
+            modelBuilder.Entity("Domain.Warehouses.Warehouse", b =>
+                {
+                    b.HasOne("Domain.WarehouseTypes.WarehouseType", "WarehouseType")
+                        .WithMany("Warehouse")
+                        .HasForeignKey("WarehouseTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("WarehouseType");
+                });
+
             modelBuilder.Entity("Infrastructure.Identity.Model.ApplicationUserRole", b =>
                 {
                     b.HasOne("Infrastructure.Identity.Model.ApplicationRole", null)
@@ -385,14 +591,31 @@ namespace Infrastructure.Persistence.Context.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Domain.Products.Product", b =>
+                {
+                    b.Navigation("PurchaseOrderLine");
+                });
+
             modelBuilder.Entity("Domain.ProductTypes.ProductType", b =>
                 {
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Domain.PurchaseOrders.PurchaseOrder", b =>
+                {
+                    b.Navigation("PurchaseOrderLine");
+                });
+
             modelBuilder.Entity("Domain.Units.Unit", b =>
                 {
                     b.Navigation("Product");
+
+                    b.Navigation("PurchaseOrderLine");
+                });
+
+            modelBuilder.Entity("Domain.WarehouseTypes.WarehouseType", b =>
+                {
+                    b.Navigation("Warehouse");
                 });
 #pragma warning restore 612, 618
         }
