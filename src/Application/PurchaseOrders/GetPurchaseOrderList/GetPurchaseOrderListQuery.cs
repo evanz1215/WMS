@@ -1,11 +1,7 @@
 ﻿using Application.Common.Dependencies.DataAccess;
 using Application.Common.Dependencies.DataAccess.Repositories.Common;
+using Domain.PurchaseOrders;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.PurchaseOrders.GetPurchaseOrderList
 {
@@ -13,10 +9,9 @@ namespace Application.PurchaseOrders.GetPurchaseOrderList
     {
         public string SerialNumber { get; set; }
         public Guid? WarehouseId { get; set; }
-        public int? PurchaseOrderStatus { get; set; }
+        public PurchaseOrderStatusType? PurchaseOrderStatus { get; set; }
         public DateTime? PurchaseOrderDate { get; set; }
     }
-
 
     public class GetPurchaseOrderListQueryHandler : IRequestHandler<GetPurchaseOrderListQuery, IListResponseModel<PurchaseOrderListDto>>
     {

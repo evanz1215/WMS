@@ -16,6 +16,7 @@ namespace WebAPI.Controllers
                 {
                     c.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                     c.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                    //c.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 })
                 .AddNewtonsoftJson(setupAction =>
                 {

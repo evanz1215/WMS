@@ -1,8 +1,11 @@
 ﻿using Application.PurchaseOrders.CreatePurchaseOrder;
 using Application.PurchaseOrders.GetPurchaseOrderList;
+using Application.PurchaseOrders.PatchPurchaseOrder;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
 
 namespace WebAPI.Controllers.V1
 {
@@ -34,5 +37,20 @@ namespace WebAPI.Controllers.V1
 
             return NoContent();
         }
+
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PatchAsync([FromRoute] Guid id, [FromBody] JsonPatchDocument<PurchaseOrderForUpdateDto> patchDocument)
+        {
+            var result = await _mediator.Send(new PatchPurchaseOrderCommand
+            {
+                Id = id,
+                PatchDocument = patchDocument
+            });
+
+            return NoContent();
+        }
     }
+
+
 }
